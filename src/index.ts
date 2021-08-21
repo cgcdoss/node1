@@ -1,12 +1,13 @@
-import express from 'express';
+import express, { Router } from 'express';
 
 class App {
   app = express();
+  routes = Router();
 
   constructor() {
     this.app.use(express.json());
 
-    this.app.get('/', (req, res) => {
+    this.routes.get('/', (req, res) => {
       res.send(
         `Requisições disponíveis: <br><br>
         /somar: recebe dois parametros: a e b <br>
@@ -16,16 +17,18 @@ class App {
       );
     });
 
-    this.app.get('/somar', (req, res) => {
+    this.routes.get('/somar', (req, res) => {
       const a = parseInt(req?.query?.a as string) || 0;
       const b = parseInt(req?.query?.b as string) || 0;
       res.json({ a, b, result: this.somar(a, b) });
     });
 
-    this.app.get('/sqrt', (req, res) => {
+    this.routes.get('/sqrt', (req, res) => {
       const a = parseInt(req?.query?.a as string) || 0;
       res.json({ a, result: this.sqrt(a) });
     });
+
+    this.app.use(this.routes);
   }
 
   somar(a: number, b: number): number {
