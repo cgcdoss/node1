@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
+import emailController from './controllers/email';
 
 class App {
   app = express();
@@ -34,6 +35,9 @@ class App {
       const b = parseInt(req?.query?.b as string) || 0;
       res.json({ a, b, result: this.subtrair(a, b) });
     });
+
+    this.routes.post('/email', emailController.enviaEmail);
+    this.routes.post('/email-sem-promise', emailController.enviaEmailSemPromise);
 
     this.middleware();
 
