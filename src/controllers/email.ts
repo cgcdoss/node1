@@ -3,20 +3,20 @@ import mailer from 'nodemailer';
 
 class EmailSender {
   async enviaEmail(req: Request, res: Response): Promise<void> {
-    const remetente = mailer.createTransport({
-      host: req.body.host,
-      port: req.body.port,
-      secure: true,
+
+    const mailSender = mailer.createTransport({
+      host: process.env.HOST,
+      port: process.env.PORT,
       auth: {
-        user: req.body.remetente.email,
-        pass: req.body.remetente.senha,
-      },
-    });
+        user: process.env.USER,
+        pass: process.env.PASS,
+      }
+    } as mailer.TransportOptions);
 
     await new Promise((resolve, reject) =>
-      remetente.sendMail({
-        from: req.body.remetente.email,
-        to: req.body.destinatario.email,
+      mailSender.sendMail({
+        from: req.body.remetente,
+        to: req.body.destinatario,
         subject: req.body.assunto,
         text: req.body.mensagem,
       }, (error, info) => {
@@ -31,19 +31,19 @@ class EmailSender {
   }
 
   enviaEmailSemPromise(req: Request, res: Response): void {
-    const remetente = mailer.createTransport({
-      host: req.body.host,
-      port: req.body.port,
-      secure: true,
+    const mailSender = mailer.createTransport({
+      host: process.env.HOST,
+      port: process.env.PORT,
       auth: {
-        user: req.body.remetente.email,
-        pass: req.body.remetente.senha,
-      },
-    });
+        user: process.env.USER,
+        pass: process.env.PASS,
+      }
+    } as mailer.TransportOptions);
 
-    remetente.sendMail({
-      from: req.body.remetente.email,
-      to: req.body.destinatario.email,
+
+    mailSender.sendMail({
+      from: req.body.remetente,
+      to: req.body.destinatario,
       subject: req.body.assunto,
       text: req.body.mensagem,
     }, (error, info) => {

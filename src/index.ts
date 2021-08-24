@@ -1,11 +1,14 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
 import emailController from './controllers/email';
+import dotenv from 'dotenv';
 
 class App {
   app = express();
   routes = Router();
 
   constructor() {
+    dotenv.config();
+    
     this.app.use(express.json());
 
     this.routes.get('/', (req, res) => {
