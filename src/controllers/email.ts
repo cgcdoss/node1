@@ -6,7 +6,7 @@ class EmailSender {
 
     const mailSender = mailer.createTransport({
       host: process.env.HOST,
-      port: process.env.PORT,
+      port: process.env.PORTSMTP,
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
@@ -33,7 +33,7 @@ class EmailSender {
   enviaEmailSemPromise(req: Request, res: Response): void {
     const mailSender = mailer.createTransport({
       host: process.env.HOST,
-      port: process.env.PORT,
+      port: process.env.PORTSMTP,
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
