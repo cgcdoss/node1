@@ -1,6 +1,6 @@
+import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response, Router } from 'express';
 import emailController from './controllers/email';
-import dotenv from 'dotenv';
 
 class App {
   app = express();
@@ -8,7 +8,7 @@ class App {
 
   constructor() {
     dotenv.config();
-    
+
     this.app.use(express.json());
 
     this.routes.get('/', (req, res) => {
@@ -78,10 +78,11 @@ class App {
   }
 
   private handlerAll(req: Request, res: Response, next: NextFunction): void {
-    console.log('caiu no all');
+    console.log(`handlerAll - path: ${req.path}`);
     next();
   }
 
 }
 
-new App().app.listen(3333);
+// export { App };
+export default new App().app;

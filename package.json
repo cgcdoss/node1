@@ -2,9 +2,9 @@
   "name": "node1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
-    "start": "ts-node-dev --ignore-watch node_modules src/index.ts",
+    "start": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
