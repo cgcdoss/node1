@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "ts-node-dev --ignore-watch node_modules src/server.ts",
-    "start:heroku": "node dist/server.js",
+    "start:heroku": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build"
   },
