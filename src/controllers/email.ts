@@ -3,7 +3,7 @@ import mailer from 'nodemailer';
 
 class EmailSender {
   async enviaEmail(req: Request, res: Response): Promise<void> {
-
+    console.log('AQUIIII', process.env.HOST, process.env.PORTSMTP, process.env.USER);
     const mailSender = mailer.createTransport({
       host: process.env.HOST,
       port: process.env.PORTSMTP,
