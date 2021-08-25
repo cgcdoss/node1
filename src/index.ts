@@ -39,6 +39,18 @@ class App {
       res.json({ a, b, result: this.subtrair(a, b) });
     });
 
+    this.routes.get('/somarAll', (req, res) => {
+      let numeroFinal = 0;
+      for (let prop in req.query) {
+        numeroFinal += parseInt(req.query[prop] as string, 10);
+      }
+      res.json({ numeros: req.query, result: numeroFinal });
+    });
+
+    this.routes.get('/math/:expressao/', (req, res) => {
+      res.json({ ...req.params, result: eval(req.params.expressao) });
+    });
+
     this.routes.post('/email', emailController.enviaEmail);
     this.routes.post('/email-sem-promise', emailController.enviaEmailSemPromise);
 
