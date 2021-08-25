@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build && node dist/server.js"
+    "build": "tsc --build"
   },
   "author": "",
   "license": "ISC",
