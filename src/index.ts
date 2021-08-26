@@ -92,9 +92,10 @@ class App {
 
   private middleware(): void {
     // As linhas abaixo funcionam da mesma forma
-    this.app.use(this.handlerAll);
-    this.app.use('/', this.handlerAll);
-    this.app.all('*', this.handlerAll);
+
+    // this.app.use(this.handlerAll); // é executada quando a base do caminho solicitado corresponde ao path
+    // this.app.use('/', this.handlerAll); // é executada quando a base do caminho solicitado corresponde ao path
+    this.app.all('*', this.handlerAll); // Este método é semelhante aos métodos app.METHOD(), exceto que corresponde a todos os verbos HTTP.
   }
 
   private myHandler(req: Request, res: Response, next: NextFunction): void {
