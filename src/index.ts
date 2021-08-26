@@ -1,6 +1,9 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response, Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
 import emailController from './controllers/email';
+import swagger_output from './doc/swagger_output.json';
 
 class App {
   app = express();
@@ -10,6 +13,7 @@ class App {
     dotenv.config();
 
     this.app.use(express.json());
+    this.app.use(cors());
 
     this.routes.get('/', (req, res) => {
       res.send(
@@ -17,7 +21,9 @@ class App {
         /somar: recebe dois parametros: a e b <br>
         /sqrt: recebe um parametro: a <br><br>
         Ambos os parametros devem ser passados como queryParams, usando o "?" <br><br>
-        Ex.: <b>localhost:3333/somar?a=1&b=2</b>. Nesse caso o result será 3`
+        Ex.: <b>localhost:3333/somar?a=1&b=2</b>. Nesse caso o result será 3  <br><br><hr>
+        
+        Acesse a <a href="/api-docs">documentação</a>`
       );
     });
 
@@ -53,6 +59,13 @@ class App {
 
     this.routes.post('/email', emailController.enviaEmail);
     this.routes.post('/email-sem-promise', emailController.enviaEmailSemPromise);
+
+    if (process.env.NODE_ENV === 'local') {
+      swagger_output.host = 'localhost:3333';
+      swagger_output.schemes = ['http'];
+    }
+
+    this.routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger_output));
 
     this.middleware();
 

@@ -1,0 +1,206 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API do Cássio",
+    "description": "API para testes do Node"
+  },
+  "host": "cgcnode.herokuapp.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Operações Matemáticas",
+      "description": "Operações de matemática"
+    },
+    {
+      "name": "Email",
+      "description": "Envio de Email"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/somar": {
+      "get": {
+        "tags": [
+          "Operações Matemáticas"
+        ],
+        "description": "Soma",
+        "parameters": [
+          {
+            "name": "a",
+            "description": "Um número para somar",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "b",
+            "description": "Um número para somar",
+            "type": "number",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O resultado da soma",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "value": "tal"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sqrt": {
+      "get": {
+        "tags": [
+          "Operações Matemáticas"
+        ],
+        "description": "Raíz Quadrada",
+        "parameters": [
+          {
+            "name": "a",
+            "description": "Um número para tirar a raiz quadrada",
+            "type": "number",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O resultado da raíz quadrada"
+          }
+        }
+      }
+    },
+    "/sub": {
+      "get": {
+        "tags": [
+          "Operações Matemáticas"
+        ],
+        "description": "Subtração.",
+        "parameters": [
+          {
+            "name": "a",
+            "description": "Um número para subtrair",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "b",
+            "description": "Um número para subtrair",
+            "type": "number",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O resultado da subtração"
+          }
+        }
+      }
+    },
+    "/somarAll": {
+      "get": {
+        "tags": [
+          "Operações Matemáticas"
+        ],
+        "description": "Permite somar vários números",
+        "parameters": [
+          {
+            "name": "a",
+            "description": "Um número para somar",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "b",
+            "description": "Um número para somar",
+            "type": "number",
+            "in": "query"
+          },
+          {
+            "name": "c",
+            "description": "Um número para somar",
+            "type": "number",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O resultado da soma"
+          }
+        }
+      }
+    },
+    "/math/{expressao}/": {
+      "get": {
+        "tags": [
+          "Operações Matemáticas"
+        ],
+        "description": "Permite executar expressões matemáticas mais complexas",
+        "parameters": [
+          {
+            "name": "expressao",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "O resultado da expressão"
+          }
+        }
+      }
+    },
+    "/email": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "description": "Endpoints para envio de email",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "remetente": {
+                  "example": "email@gmail.com"
+                },
+                "destinatario": {
+                  "example": "email2@gmail.com"
+                },
+                "assunto": {
+                  "example": "string"
+                },
+                "mensagem": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {}
+}
