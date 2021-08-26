@@ -21,7 +21,8 @@ class App {
         /somar: recebe dois parametros: a e b <br>
         /sqrt: recebe um parametro: a <br><br>
         Ambos os parametros devem ser passados como queryParams, usando o "?" <br><br>
-        Ex.: <b>localhost:3333/somar?a=1&b=2</b>. Nesse caso o result será 3  <br><br><hr>
+        Ex.: <b>localhost:3333/somar?a=1&b=2</b>. Nesse caso o result será 3  <br><br>
+        <hr>
         
         Acesse a <a href="/api-docs">documentação</a>`
       );
@@ -76,6 +77,8 @@ class App {
      * Para usar a rota de soma, por exemplo seria: localhost:3333/myapi/somar?a=1&b=2
      */
     this.app.use('/myapi', this.routes);
+
+    // this.exibeRotas();
   }
 
   private somar(a: number, b: number): number {
@@ -106,6 +109,14 @@ class App {
   private handlerAll(req: Request, res: Response, next: NextFunction): void {
     console.log(`handlerAll - path: ${req.path}`);
     next();
+  }
+
+  private exibeRotas(): void {
+    this.routes.stack.forEach((r: any) => {
+      if (r.route && r.route.path) {
+        console.log(r.route.path, ': ', r);
+      }
+    })
   }
 
 }
