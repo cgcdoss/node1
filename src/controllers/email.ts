@@ -10,6 +10,10 @@ class EmailSender {
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
+      },
+      secure: false,
+      tls: {
+        rejectUnauthorized: false
       }
     } as mailer.TransportOptions);
 
@@ -32,8 +36,9 @@ class EmailSender {
 
   enviaEmailSemPromise(req: Request, res: Response): void {
     const mailSender = mailer.createTransport({
-      host: process.env.HOST,
-      port: process.env.PORTSMTP,
+      // host: process.env.HOST,
+      // port: process.env.PORTSMTP,
+      service: 'gmail',
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
