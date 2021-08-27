@@ -11,10 +11,10 @@ class EmailSender {
         user: process.env.USER,
         pass: process.env.PASS,
       },
-      secure: false,
+      /* secure: true,
       tls: {
         rejectUnauthorized: false
-      }
+      } */
     } as mailer.TransportOptions);
 
     await new Promise((resolve, reject) =>
