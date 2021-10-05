@@ -1,15 +1,15 @@
 import emailController from '../controllers/email';
-import http from 'http';
+import http from 'https';
 
 export class Jadlog {
-  private respostaAtual = '';
+  private tbodyAtual = '';
   private intervals: any[] = [];
 
   private verificaRastreamento(codigoRastreio: string): void {
     console.log('chamou a verificação da jadlog');
 
     const options = {
-      host: 'www.jadlog.com.br',
+      host: 'jadlog.com.br',
       path: `/siteInstitucional/tracking_dev.jad?cte=${codigoRastreio}` // 07046700335339
     };
 
@@ -20,8 +20,11 @@ export class Jadlog {
       });
 
       response.on('end', () => {
-        if (this.respostaAtual.length && this.respostaAtual.trim() !== str.trim()) {
-          console.log('mudou a resposta: antes:', this.respostaAtual, ' depois:', str);
+        let tbodyRequest = str.trim().substring(str.trim().search(/<tbody.*>/), str.trim().search(/<\/tbody>/)); // pega o tbody todo
+        tbodyRequest = tbodyRequest.substring(tbodyRequest.indexOf('<tr')); // skipa do <tbody... Para pegar somente o conteúdo do tbody
+
+        if (this.tbodyAtual.length && this.tbodyAtual.trim() !== tbodyRequest.trim()) {
+          console.log('mudou a resposta. \nAntes:', this.tbodyAtual, ' \ndepois:', str);
 
           emailController.sendEmail({
             remetente: 'contato@cassiogabriel.com',
@@ -34,7 +37,7 @@ export class Jadlog {
           console.log('mesma resposta');
         }
 
-        this.respostaAtual = str;
+        this.tbodyAtual = tbodyRequest;
       });
     };
 
@@ -76,7 +79,7 @@ export class Jadlog {
   limparIntervals(): void {
     this.intervals.forEach(i => clearInterval(i));
     this.intervals = [];
-    this.respostaAtual = '';
+    this.tbodyAtual = '';
   }
 }
 
