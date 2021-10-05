@@ -7,7 +7,7 @@ export class Jadlog {
 
   private verificaRastreamento(codigoRastreio: string): void {
     console.log('chamou a verificação da jadlog');
-    
+
     const options = {
       host: 'www.jadlog.com.br',
       path: `/siteInstitucional/tracking_dev.jad?cte=${codigoRastreio}` // 07046700335339
@@ -20,7 +20,7 @@ export class Jadlog {
       });
 
       response.on('end', () => {
-        if (this.respostaAtual.trim() !== str.trim()) {
+        if (this.respostaAtual.length && this.respostaAtual.trim() !== str.trim()) {
           console.log('mudou a resposta');
           emailController.sendEmail({
             remetente: 'contato@cassiogabriel.com',
@@ -30,7 +30,7 @@ export class Jadlog {
             html: str
           });
         } else {
-          // console.log('mesma resposta');
+          console.log('mesma resposta');
         }
 
         this.respostaAtual = str;
@@ -67,7 +67,7 @@ export class Jadlog {
 
     const interval2 = setInterval(() => {
       this.autoChamadaHeroku();
-    }, 1000 * 60 * 5);
+    }, 1000 * 60 * 25);
 
     this.intervals.push(interval1, interval2);
   }
