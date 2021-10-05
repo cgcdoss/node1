@@ -21,7 +21,8 @@ export class Jadlog {
 
       response.on('end', () => {
         if (this.respostaAtual.length && this.respostaAtual.trim() !== str.trim()) {
-          console.log('mudou a resposta');
+          console.log('mudou a resposta: antes:', this.respostaAtual, ' depois:', str);
+
           emailController.sendEmail({
             remetente: 'contato@cassiogabriel.com',
             destinatario: 'gabi04061997@gmail.com',
