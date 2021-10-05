@@ -86,7 +86,7 @@ class App {
       const codigoRastreio = req.query.codigoRastreio as string;
 
       if (codigoRastreio && codigoRastreio.length) {
-        jadlog.initRastreamento(1, codigoRastreio);
+        jadlog.initRastreamento(5, codigoRastreio);
         res.json('tudo ok');
       } else {
         res.status(400).json('Informe a queryParam codigoRastreio na url, tipo ?codigoRastreio=123456');
