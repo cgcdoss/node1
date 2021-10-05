@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response, Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import emailController from './controllers/email';
 import swagger_output from './doc/swagger_output.json';
+import jadlog from './trackers/jadlog';
 
 class App {
   private _app = express();
@@ -80,6 +81,21 @@ class App {
 
     this._routes.post('/email', emailController.enviaEmail);
     this._routes.post('/email-sem-promise', emailController.enviaEmailSemPromise);
+
+    this._routes.get('/init-jadlog', (req: Request, res: Response) => {
+      const codigoRastreio = req.query.codigoRastreio as string;
+
+      if (codigoRastreio && codigoRastreio.length) {
+        jadlog.initRastreamento(1, codigoRastreio);
+        res.json('tudo ok');
+      } else {
+        res.status(400).json('Informe a queryParam codigoRastreio na url, tipo ?codigoRastreio=123456');
+      }
+    });
+    this._routes.get('/stop-jadlog', (req: Request, res: Response) => {
+      jadlog.limparIntervals();
+      res.json('tudo ok');
+    });
   }
 
   private setDocs(): void {

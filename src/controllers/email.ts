@@ -59,6 +59,33 @@ class EmailSender {
       }
     });
   }
+
+  sendEmail(options: any): void {
+    console.log('vai enviar email');
+
+    const mailSender = mailer.createTransport({
+      host: process.env.HOST,
+      port: process.env.PORTSMTP,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    } as mailer.TransportOptions);
+
+    mailSender.sendMail({
+      from: options.remetente,
+      to: options.destinatario,
+      subject: options.assunto,
+      // text: options.mensagem,
+      html: options.html
+    }, (error, info) => {
+      if (error) {
+        console.log('erro no envio de email', error);
+      } else {
+        console.log('enviou email');
+      }
+    });
+  }
 }
 
 export default new EmailSender();
