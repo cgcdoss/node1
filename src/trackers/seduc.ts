@@ -26,9 +26,9 @@ export class Seduc {
             response.on('end', () => {
                 const $ = cheerio.load(str);
                 const quantidadeEditais = $('a[arquivo_download]').length;
-                console.log('quantidade: ', quantidadeEditais);
+                console.log('Quantidade atual: ', this._quantidadeAtualEditais, '; Nova quantidade: ' , quantidadeEditais);
 
-                if (this._quantidadeAtualEditais != quantidadeEditais) {
+                if (this._quantidadeAtualEditais !== 0 && this._quantidadeAtualEditais != quantidadeEditais) {
                     console.log('mudou a resposta');
 
                     emailController.sendEmail({
