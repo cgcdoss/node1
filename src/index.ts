@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import emailController from './controllers/email';
 import swagger_output from './doc/swagger_output.json';
 import jadlog from './trackers/jadlog';
+import seduc from './trackers/seduc';
 
 class App {
   private _app = express();
@@ -94,6 +95,16 @@ class App {
     });
     this._routes.get('/stop-jadlog', (req: Request, res: Response) => {
       jadlog.limparIntervals();
+      res.json('tudo ok');
+    });
+
+    // SEDUC
+    this._routes.get('/init-seduc', (req: Request, res: Response) => {
+      seduc.initRastreamento(5);
+      res.json('tudo ok');
+    });
+    this._routes.get('/stop-seduc', (req: Request, res: Response) => {
+      seduc.limparIntervals();
       res.json('tudo ok');
     });
   }
