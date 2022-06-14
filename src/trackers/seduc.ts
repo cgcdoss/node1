@@ -77,9 +77,8 @@ export class Seduc {
     }
 
     initRastreamento(minutos: number): void {
-        this._verificarMudanças();
         const interval1 = setInterval(() => {
-            // this._verificarMudanças();
+            this._verificarMudanças();
         }, 1000 * 60 * minutos); // a cada x minutos
 
         const interval2 = setInterval(() => {
