@@ -107,6 +107,7 @@ class App {
       seduc.limparIntervals();
       res.json('tudo ok');
     });
+
   }
 
   private setDocs(): void {
