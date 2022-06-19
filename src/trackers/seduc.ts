@@ -1,5 +1,5 @@
 import emailController from '../controllers/email';
-import http from 'https';
+import http from 'http';
 import * as cheerio from 'cheerio';
 
 
@@ -7,14 +7,13 @@ export class Seduc {
     private _quantidadeAtualEditais = 0;
     private intervals: any[] = [];
 
-    private _verificarMudanças(): void {
+    private _verificarMudancas(): void {
         console.log('chamou a verificação da Seduc');
 
         const options: http.RequestOptions = {
-            host: 'www.seduc.pa.gov.br',
+            hostname: 'www.seduc.pa.gov.br',
             path: `/pagina/11760-pss-001-2022---sectec---seduc---professor-e-tec-nivel-superior`,
-            rejectUnauthorized: false,
-            method: 'GET'
+            method: 'GET',
         };
 
         const callback = (response: any) => {
@@ -26,7 +25,7 @@ export class Seduc {
             response.on('end', () => {
                 const $ = cheerio.load(str);
                 const quantidadeEditais = $('a[arquivo_download]').length;
-                console.log('Quantidade atual: ', this._quantidadeAtualEditais, '; Nova quantidade: ' , quantidadeEditais);
+                console.log('Quantidade atual: ', this._quantidadeAtualEditais, '; Nova quantidade: ', quantidadeEditais);
 
                 if (this._quantidadeAtualEditais !== 0 && this._quantidadeAtualEditais != quantidadeEditais) {
                     console.log('mudou a resposta');
@@ -49,7 +48,7 @@ export class Seduc {
                     console.log('mesma resposta');
                 }
 
-                this._quantidadeAtualEditais = quantidadeEditais;                
+                this._quantidadeAtualEditais = quantidadeEditais;
             });
         };
 
@@ -77,9 +76,9 @@ export class Seduc {
     }
 
     initRastreamento(minutos: number): void {
-        this._verificarMudanças(); // Faz a primeira vez para não ficar esperando
+        this._verificarMudancas(); // Faz a primeira vez para não ficar esperando
         const interval1 = setInterval(() => {
-            this._verificarMudanças();
+            this._verificarMudancas();
         }, 1000 * 60 * minutos); // a cada x minutos
 
         const interval2 = setInterval(() => {
