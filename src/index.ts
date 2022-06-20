@@ -6,6 +6,7 @@ import emailController from './controllers/email';
 import swagger_output from './doc/swagger_output.json';
 import jadlog from './trackers/jadlog';
 import seduc from './trackers/seduc';
+import infoConta from './controllers/info-conta-energia';
 
 class App {
   private _app = express();
@@ -114,6 +115,24 @@ class App {
       // res.contentType('application/json');
       // res.setHeader('content-type', 'application/json');
       res.send(req.query['texto']);
+    });
+
+    this._routes.post('/info-conta', (req: Request, res: Response) => {
+      infoConta.setInfo(req.body);
+      res.json(infoConta.infoResp);
+    });
+
+    this._routes.get('/info-conta', (req: Request, res: Response) => {
+      const body: any = {
+        dataUltimaLeitura: req.query.dataUltimaLeitura,
+        dataProximaLeitura: req.query.dataProximaLeitura,
+        quantidadeUltimaLeitura: req.query.quantidadeUltimaLeitura,
+        quantidadeLeituraAtual: req.query.quantidadeLeituraAtual,
+        valorUltimaFatura: req.query.valorUltimaFatura,
+        quantidadeKwUltimaFatura: req.query.quantidadeKwUltimaFatura,
+      };
+      infoConta.setInfo(body);
+      res.json(infoConta.infoResp);
     });
   }
 
