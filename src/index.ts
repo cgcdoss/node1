@@ -108,6 +108,13 @@ class App {
       res.json('tudo ok');
     });
 
+    this._routes.get('/falar', (req: Request, res: Response) => {
+      // 3 formas de setar o MIME type
+      // res.type('application/json');
+      // res.contentType('application/json');
+      // res.setHeader('content-type', 'application/json');
+      res.send(req.query['texto']);
+    });
   }
 
   private setDocs(): void {
