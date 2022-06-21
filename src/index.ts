@@ -118,8 +118,7 @@ class App {
     });
 
     this._routes.post('/info-conta', (req: Request, res: Response) => {
-      infoConta.setInfo(req.body);
-      res.json(infoConta.infoResp);
+      res.json(infoConta.processaInformacao(req.body));
     });
 
     this._routes.get('/info-conta', (req: Request, res: Response) => {
@@ -131,8 +130,7 @@ class App {
         valorUltimaFatura: req.query.valorUltimaFatura,
         quantidadeKwUltimaFatura: req.query.quantidadeKwUltimaFatura,
       };
-      infoConta.setInfo(body);
-      res.json(infoConta.infoResp);
+      res.json(infoConta.processaInformacao(body));
     });
   }
 

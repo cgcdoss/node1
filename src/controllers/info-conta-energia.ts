@@ -1,26 +1,39 @@
-
 class InfoConta {
 
     private _info!: IInfoConta;
-    public infoResp!: Partial<IInfoResp>;
 
-    public setInfo(info: IInfoConta): void {
+    public processaInformacao(info: IInfoConta): IInfoResp {
         this._info = info;
-        this._setValores();
+        const resp = this._getInfoResp();
+        this._alterarQuantidadeCasasDecimais(resp, 3);
+        return resp;
     }
 
-    private _setValores(): void {
-        this.infoResp = {
-            valorPorKwUltimaFatura: +this._valorPorKwUltimaFatura.toFixed(3),
-            quantidadeKwConsumidosAteOMomento: +this._quantidadeKwConsumidos.toFixed(3),
-            valorGastoAteOMomento: +this._valorGastoAteMomento.toFixed(3),
-            quantidadeKwGastoPorDia: +this._quantidadeKwGastoPorDia.toFixed(3),
-            quantidadeDiasUltimaLeituraAteProximaLeitura: +this._quantidadeDiasUltimaLeituraAteProximaLeitura.toFixed(3),
-            supostoValorProximaFatura: +this._supostoValorProximaFatura.toFixed(3),
+    private _getInfoResp(): IInfoResp {
+        return {
+            valorPorKwUltimaFatura: this._valorPorKwUltimaFatura,
+            quantidadeKwConsumidosAteOMomento: this._quantidadeKwConsumidosAteOMomento,
+            valorGastoAteOMomento: this._valorGastoAteOMomento,
+            quantidadeKwGastoPorDia: this._quantidadeKwGastoPorDia,
+            quantidadeDiasUltimaLeituraAteProximaLeitura: this._quantidadeDiasUltimaLeituraAteProximaLeitura,
+            supostoValorProximaFatura: this._supostoValorProximaFatura,
         };
     }
 
-    private get _quantidadeKwConsumidos(): number {
+    private _getDateDiff(data1: Date, data2: Date): number {
+        const diffTime = Math.abs(data2.getTime() - data1.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
+
+    private _alterarQuantidadeCasasDecimais(info: IInfoResp, casasDecimais: number): void {
+        let prop: keyof IInfoResp;
+        for (prop in info) {
+            info[prop] = +info[prop].toFixed(casasDecimais);
+        }
+    }
+
+    private get _quantidadeKwConsumidosAteOMomento(): number {
         return this._info.quantidadeLeituraAtual - this._info.quantidadeUltimaLeitura;
     }
 
@@ -28,8 +41,8 @@ class InfoConta {
         return this._info.valorUltimaFatura / this._info.quantidadeKwUltimaFatura;
     }
 
-    private get _valorGastoAteMomento(): number {
-        return this._quantidadeKwConsumidos * this._valorPorKwUltimaFatura;
+    private get _valorGastoAteOMomento(): number {
+        return this._quantidadeKwConsumidosAteOMomento * this._valorPorKwUltimaFatura;
     }
 
     private get _quantidadeKwGastoPorDia(): number {
@@ -42,7 +55,7 @@ class InfoConta {
             hoje.setDate(hoje.getDate() - 1); // para fazer um intervalo aberto
         }
 
-        return this._quantidadeKwConsumidos / this._getDateDiff(new Date(this._info.dataUltimaLeitura), hoje);
+        return this._quantidadeKwConsumidosAteOMomento / this._getDateDiff(new Date(this._info.dataUltimaLeitura), hoje);
     }
 
     private get _quantidadeDiasUltimaLeituraAteProximaLeitura(): number {
@@ -51,12 +64,6 @@ class InfoConta {
 
     private get _supostoValorProximaFatura(): number {
         return this._quantidadeKwGastoPorDia * this._quantidadeDiasUltimaLeituraAteProximaLeitura * this._valorPorKwUltimaFatura;
-    }
-
-    private _getDateDiff(data1: Date, data2: Date): number {
-        const diffTime = Math.abs(data2.getTime() - data1.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
     }
 
 }
