@@ -11,12 +11,12 @@ class InfoConta {
 
     private _setValores(): void {
         this.infoResp = {
-            valorPorKwUltimaFatura: this._valorPorKwUltimaFatura,
-            quantidadeKwConsumidosAteOMomento: this._quantidadeKwConsumidos,
-            valorGastoAteOMomento: this._valorGastoAteMomento,
-            quantidadeKwGastoPorDia: this._quantidadeKwGastoPorDia,
-            quantidadeDiasUltimaLeituraAteProximaLeitura: this._quantidadeDiasUltimaLeituraAteProximaLeitura,
-            supostoValorProximaFatura: this._supostoValorProximaFatura,
+            valorPorKwUltimaFatura: +this._valorPorKwUltimaFatura.toFixed(3),
+            quantidadeKwConsumidosAteOMomento: +this._quantidadeKwConsumidos.toFixed(3),
+            valorGastoAteOMomento: +this._valorGastoAteMomento.toFixed(3),
+            quantidadeKwGastoPorDia: +this._quantidadeKwGastoPorDia.toFixed(3),
+            quantidadeDiasUltimaLeituraAteProximaLeitura: +this._quantidadeDiasUltimaLeituraAteProximaLeitura.toFixed(3),
+            supostoValorProximaFatura: +this._supostoValorProximaFatura.toFixed(3),
         };
     }
 
@@ -33,8 +33,16 @@ class InfoConta {
     }
 
     private get _quantidadeKwGastoPorDia(): number {
-        // Por ser intervalo aberto tem que subtrair um
-        return this._quantidadeKwConsumidos / (this._getDateDiff(new Date(this._info.dataUltimaLeitura), new Date()) - 1);
+        let hoje;
+        if (this._info.dataRequisicao) { // Caso a data da requisição não venha informada, será considerada a data de hoje
+            hoje = new Date(this._info.dataRequisicao);
+        } else {
+            hoje = new Date();
+            hoje.setHours(0, 0, 0);
+            hoje.setDate(hoje.getDate() - 1); // para fazer um intervalo aberto
+        }
+
+        return this._quantidadeKwConsumidos / this._getDateDiff(new Date(this._info.dataUltimaLeitura), hoje);
     }
 
     private get _quantidadeDiasUltimaLeituraAteProximaLeitura(): number {
@@ -46,9 +54,7 @@ class InfoConta {
     }
 
     private _getDateDiff(data1: Date, data2: Date): number {
-        const date1 = new Date(data1);
-        const date2 = new Date(data2);
-        const diffTime = Math.abs(date2.getTime() - date1.getTime());
+        const diffTime = Math.abs(data2.getTime() - data1.getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
     }
@@ -56,6 +62,7 @@ class InfoConta {
 }
 
 export interface IInfoConta {
+    dataRequisicao?: string;
     dataUltimaLeitura: string;
     dataProximaLeitura: string;
     quantidadeUltimaLeitura: number;
