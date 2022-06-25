@@ -1,5 +1,5 @@
 import emailController from '../controllers/email';
-import http from 'http';
+import https from 'https';
 import * as cheerio from 'cheerio';
 
 
@@ -10,7 +10,7 @@ export class Seduc {
     private _verificarMudancas(): void {
         console.log('chamou a verificação da Seduc');
 
-        const options: http.RequestOptions = {
+        const options: https.RequestOptions = {
             hostname: 'www.seduc.pa.gov.br',
             path: `/pagina/11760-pss-001-2022---sectec---seduc---professor-e-tec-nivel-superior`,
             method: 'GET',
@@ -52,7 +52,7 @@ export class Seduc {
             });
         };
 
-        http.request(options, callback).end();
+        https.request(options, callback).end();
     }
 
     autoChamadaHeroku(): void {
@@ -72,7 +72,7 @@ export class Seduc {
             });
         };
 
-        http.request(options, callback).end();
+        https.request(options, callback).end();
     }
 
     initRastreamento(minutos: number): void {
