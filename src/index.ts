@@ -109,7 +109,8 @@ class App {
       res.json('tudo ok');
     });
 
-    this._routes.get('/falar', (req: Request, res: Response) => {
+    // Teste Vercel
+    this._routes.get('/api/falar', (req: Request, res: Response) => {
       // 3 formas de setar o MIME type
       // res.type('application/json');
       // res.contentType('application/json');

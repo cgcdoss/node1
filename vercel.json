@@ -1,8 +1,21 @@
 {
-    "functions": {
-        "dist/*.js": {
-            "memory": 1024,
-            "maxDuration": 10
+    "version": 2,
+    "env": {},
+    "builds": [
+        {
+            "src": "dist/server.js",
+            "use": "@vercel/node",
+            "config": {
+                "includeFiles": [
+                    "dist/**"
+                ]
+            }
         }
-    }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "dist/server.js"
+        }
+    ]
 }
