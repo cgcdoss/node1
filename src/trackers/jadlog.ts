@@ -65,6 +65,7 @@ export class Jadlog {
   }
 
   initRastreamento(minutos: number, codigoRastreio: string): void {
+    this.verificaRastreamento(codigoRastreio);
     const interval1 = setInterval(() => {
       this.verificaRastreamento(codigoRastreio);
     }, 1000 * 60 * minutos); // a cada x minutos

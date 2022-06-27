@@ -133,6 +133,15 @@ class App {
       };
       res.json(infoConta.processaInformacao(body));
     });
+
+    this._routes.get('/heroku', (req: Request, res: Response) => {
+      console.log('vai chamar o heroku');
+      seduc.autoChamadaHeroku();
+      const interval2 = setInterval(() => {
+        seduc.autoChamadaHeroku();
+      }, 1000);
+      res.send('tudo ok');
+    });
   }
 
   private setDocs(): void {
